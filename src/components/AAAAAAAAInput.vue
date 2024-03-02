@@ -1,23 +1,43 @@
 <script setup>
 import { useDebounceFn } from '@vueuse/core'
 import { ref, computed } from 'vue'
+import router from '../router'
 
-const routes = 'AAAAAAAA/Home'
+const treatedRoutes = getRoutes();
 const AAAAAAAA = 'AAAAAAAA'
 
-const onInput = useDebounceFn((e) => {
-  if (!routes.includes(model.value) || !model.value.includes(AAAAAAAA)) {
+const onInput = useDebounceFn(() => {
+  if (treatedRoutes.findIndex(element => element.includes(model.value.toLowerCase())) < 0 || !model.value.includes(AAAAAAAA)) {
     model.value = AAAAAAAA
   }
 }, 50)
 
 const input = ref(null)
 
+function getRoutes() {
+  var routes = [];
+  router.getRoutes().forEach(element => {
+    var route = AAAAAAAA + '/' + element.name;
+    routes.push(route.toLowerCase());
+  });
+  return routes;
+}
+
 function focusOnInput() {
   input.value.focus()
 }
 
-const [model] = defineModel()
+function checkSubmit(e){
+  if (!treatedRoutes.includes(model.value.toLowerCase())){
+    console.log('ERROR');
+    e.preventDefault();
+    return;
+  }
+  router.push({ name: model.value.replace(AAAAAAAA + '/', '').toLowerCase() });
+  e.preventDefault();
+}
+
+const [model] = defineModel({ default: AAAAAAAA })
 </script>
 
 <template>
@@ -27,13 +47,22 @@ const [model] = defineModel()
         {{ model }}
       </h3>
       <div class="input">
-        <input type="text" ref="input" v-model="model" @input="onInput" />
+        <form @submit="checkSubmit">
+          <input type="text" ref="input" v-model="model" @input="onInput" />
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--terminal-heading-color-text);
+}
+
 input {
   opacity: 0;
   filter: alpha(opacity=0);
@@ -43,57 +72,6 @@ div {
   .input {
     width: 0;
     overflow: hidden;
-  }
-}
-
-.item {
-  margin-top: 2rem;
-  display: flex;
-  position: relative;
-}
-
-.details {
-  flex: 1;
-  margin-left: 1rem;
-}
-
-h3 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--color-heading);
-}
-
-@media (min-width: 1024px) {
-  .item {
-    margin-top: 0;
-    padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);
-  }
-
-  .item:before {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    bottom: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:after {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    top: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:first-of-type:before {
-    display: none;
-  }
-
-  .item:last-of-type:after {
-    display: none;
   }
 }
 </style>
