@@ -6,11 +6,11 @@ import AAAAAAAAAFooter from '../components/AAAAAAAAAFooter.vue'
 <template>
   <main>
     <div class="centered">
-      <div class="input">
-        <AAAAAAAAAInput />
-      </div>
-      <div class="img">
-        <img class="marsh" src="../assets/imgs/AAAAAAAAMarsh.jpeg">
+      <AAAAAAAAAInput/>
+      <div class="list">
+        <p class="list-item">/home</p>
+        <p class="list-item">/about</p>
+        <p class="list-item">/help</p>
       </div>
     </div>
   </main>
@@ -19,10 +19,10 @@ import AAAAAAAAAFooter from '../components/AAAAAAAAAFooter.vue'
   </footer>
 </template>
 
+<style>
 
-<style> 
-  .marsh{
-    max-width: 400px;
-    max-height: 400px;
-  }
+.list-item{
+  padding-top: .03em;
+}
+
 </style>

@@ -32,6 +32,9 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  --terminal-color-text: rgba(65,255,0, 0.8);
+  --terminal-heading-color-text: rgba(65,255,0, 1);
+  --terminal-mute-color-text: rgba(65,255,0, 0.4);
 
   --section-gap: 160px;
 }
@@ -83,4 +86,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.terminal-color {
+  color: var(--terminal-color-text);
 }
